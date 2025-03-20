@@ -24,6 +24,10 @@ body{
     background-color: black;
     color: white;
 } 
+html, body {
+  overflow-x: hidden;
+}
+
 
 header{
     margin-top: 20px;
@@ -52,6 +56,9 @@ header{
 
 .logo:hover{
     transform: scale(1.1);
+}
+nav {
+    transition: all 0.3s ease-in-out;
 }
 
 
@@ -351,3 +358,18 @@ p {
         border-radius: 5px;
     }
 }
+
+@media(max-width: 500px){
+    .cont-infos h1 {
+        font-size: 3rem;
+    }
+
+    .cont-infos h3 {
+        font-size: 2rem;
+    }
+
+    p {
+        font-size: 1.2rem;
+    }
+}
+
