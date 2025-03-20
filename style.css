@@ -297,10 +297,57 @@ p {
         font-size: 5rem;
     }
     .cont-img img{
-        width: 65vh;
+        width: 70vh;
         margin-top: 4rem;
     }
 
 
 
+}
+
+#menu-icon {
+    font-size: 3rem;
+    color: #b74b4b;
+    cursor: pointer;
+    display: none; /* caché sur desktop */
+    z-index: 101;
+}
+
+/* Afficher le menu burger uniquement sur petits écrans */
+@media (max-width: 995px) {
+    #menu-icon {
+        display: block;
+    }
+
+    nav {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #161616;
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        border-left: 2px solid #b74b4b;
+        border-bottom: 2px solid #b74b4b;
+        border-bottom-left-radius: 2rem;
+        padding: 2rem;
+    }
+
+    nav.active {
+        display: flex;
+    }
+
+    nav a {
+        display: block;
+        margin: 1.5rem 0;
+        font-size: 1.8rem;
+        color: white;
+    }
+
+    nav a:hover {
+        color: #b74b4b;
+        background-color: #1f1f1f;
+        padding: 0.5rem;
+        border-radius: 5px;
+    }
 }
