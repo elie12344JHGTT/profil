@@ -163,7 +163,7 @@ span{
 
 .cont-infos2 span::after{
     content: "";
-    background-color: black;
+    /*background-color: black;*/
     position: absolute;
     width: calc(100% + 8px);
     height: 100%;
@@ -282,22 +282,22 @@ p {
 @media(max-width:995px){
     .contenaire{
         flex-direction: column;
-        margin: 5rem 4rem;
+        margin: -6rem 0rem;
         position: relative;
     }
     .contenaire .cont-infos h3{
         font-size: 2.5rem;
     }
     .cont-infos{
-        margin-top: -413px;
+        margin-top: -502px;
         z-index: 1;
     }
     .cont-infos h1{
         font-size: 5rem;
     }
     .cont-img img{
-        width: 70vh;
-        margin-top: 4rem;
+        width: 46vh;
+        margin-top: 9rem;
         border-radius: 1%;
     }
     .cont-infos2 span::after{
