@@ -3,49 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"
-  href="https://fonts.googleapis.com/css?family=Font+Name">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Font+Name">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
-    <title>Portfolio Website</title>
+    <title>Site Web du portefeuille</title>
 </head>
 <body>
-    <header>
+    <header class="header">
         <a href="#" class="logo">Elison</a>
-        <i class="fa-solid fa-bars" id="menu-icon"></i> <!-- Hamburger menu -->
-        <nav id="nav-menu">
-            <a href="#" class="active">Home</a>
-            <a href="#">Services</a>
-            <a href="#">Skills</a>
-            <a href="#">Education</a>
-            <a href="#">Experience</a>
-            <a href="https://wa.me/992684915">Contact</a>
+        <i class="fa-solid fa-bars" id="menu-icon"></i>
+    
+
+        <nav class="navbar">
+            <a href="#home"class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#portfolio">Compétences</a>
+            <a href="#contact">Contact</a>
+            
         </nav>
-      </header>
-      
-    <section class="contenaire"> 
-        <div class="cont-img">
-            <img src="profil2.jpg" alt="profil">
-        </div>
-        <div class="cont-infos">
-            <h1> Hi, It'S <span>Elison</span></h1>
-            <h3 class="cont-infos2">Im' a <span></span></h3>
-            <p>Passionné par l'univers du web et de la cybersécurité, avec une approche axée sur l'amélioration continue de mes compétences. <br> 
-                Mon exprérience couvre principalement le développement web, avec une maitrise des technologies HTML, CSS, ainsi que du <br>
-                développement logiciel en c++ et java. <br> 
-                En plus de cela, je me spécialiste dans le hacking éthique, cherchant à identefier et à résoudre les vulnérabilités dans <br>
-                les systèmes afin de garantir une expérience en ligne plus sure.      
+    </header>
+
+
+    
+
+    <section class="home" id="home">
+        <div class="home-content">
+            <h3>Hi, Myself</h3>
+            <h1>Élison</h1>
+            <h3>And I'm a <span class="multiple-text"></span></h3>
+            <p>Passionné par l'univers du web et de la cybersécurité, avec une approche axée sur l'amélioration continue de mes compétences.<br> 
+                Mon expérience couvre principalement le développement web, avec une maîtrise <br>des technologies HTML, CSS, ainsi que du
+                développement logiciel en c++ et java.<br> 
+                En plus de cela, je me spécialise dans l'éthique du hacking, cherchant à identifier et à résoudre les vulnérabilités dans<br>
+                les systèmes afin de garantir une expérience en ligne plus sûre.      
             </p>
-            <div class="social-icons">
-                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+            <div class="social-media">
+                <a href="#https://wa.me/992684915"><i class="fa-brands fa-whatsapp"></i></a>
                 <a href="https://www.github.com/elie12344JHGTT"><i class="fa-brands fa-github"></i></a>
-                <a href="https://www.facebook.com/elie ilunga kitwa"><i class="fa-brands fa-facebook"></i></a>
-                <a href="https://www.instagram.com/ellison0000001"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.facebook.com/elie ilunga kitwa"><i class="fa-brands fa-facebook"></i></i></a>
+                <a href="https://www.instagram.com/ellison0000001"><i class="fa-brands fa-instagram"></i></i></a>
             </div>
-            <a href="index.html" class="btn"> Hire me</a>
+            <a href="#" class="btn">Download CV</a>
+        </div>
+
+        <div class="home-img">
+            <img src="profil-defaut.jpg" alt="profil">
         </div>
     </section>
-  <script src="script.js"></script>  
-    
+
+
+
+    <!-- section ABOUT -->
+    <section class="about" id="about">
+        <div class="about-img">
+            <img src="profil-defaut.jpg" alt="profil">
+        </div>
+
+        <div class="about-content">
+            <h2 class="heading">About <span>Me</span></h2>
+            <h3>frontend Developer</h3>
+            <p>
+                Je suis un étudiant en génie informatique, actuellement en 1ère année de licence, avec une vraie passion pour le web et la 
+                cybersécurité. 
+                J'aime explorer les nouvelles technologies, résoudre des problèmes complexes et créer des solutions innovantes. 
+                Mon objectif est de combiner mes compétences en développement web avec une expertise en cybersécurité pour contribuer à un 
+                internet plus sûr et plus accessible.     
+            </p>
+            <a href="#" class="btn">Read more</a>
+        </div>
+
+    </section>
+
+     <!-- section service-->
+      <section class="services" id="services">
+        <h2 class="heading">My <span>Services</span></h2>
+
+        <div class="services-container">
+            <div class="services-box">
+                <i class="fa-solid fa-code"></i>
+                <h3>Web Development</h3>
+                <p>
+                    Création de sites web modernes et performants, adaptés à vos besoins : vitrine, e-commerce ou application web. 
+                    Nous assurons une conception optimisée, une intégration fluide des systèmes de gestion de contenu (CMS), 
+                    ainsi qu'une attention particulière à la sécurité et au référencement SEO. 
+                </p>
+                <a href="#contact" class="btn">Contact Me</a>
+            </div>
+        
+            <div class="services-box">
+                <i class="fa-solid fa-lock"></i>
+                <h3>White Hat Hacking</h3>
+                <p>
+                    Sécurisation de vos systèmes face aux cybermenaces. Audit de sécurité, tests d’intrusion, 
+                    analyse des vulnérabilités et durcissement des infrastructures pour protéger vos données. 
+                    Sensibilisation et formation à la cybersécurité pour renforcer la défense de votre entreprise. 
+                </p>
+                <a href="#contact" class="btn">Contact Me</a>
+            </div>
+        
+            <div class="services-box">
+                <i class="fa-solid fa-palette"></i>
+                <h3>UI/UX Design</h3>
+                <p>
+                    Conception d’interfaces utilisateur intuitives et attractives pour une expérience immersive. 
+                    Optimisation de l’ergonomie, design responsive et tests utilisateurs pour maximiser l'engagement 
+                    et améliorer la navigation sur vos applications et sites web.  
+                </p>
+                <a href="#contact" class="btn">Contact Me</a>
+            </div>
+        </div>
+        
+      </section>
+
+
+       <!-- section COMPETENCE-->
+
+       <section class="portfolio" id="portfolio">
+        <h2 class="heading">Latest <span>Projets</span></h2>
+
+        <div class="portfolio-container">
+            <div class="portfolio-box">
+                <img src="1.jpg" alt="image projets">
+                <div class="portfolio-layer">
+                    <h4>Bras Robotique (Projet en équipe)</h4>
+                    <p>J'ai travaillé sur des projets comme un bras robotique, utilisant, Arduino. 
+                         Compétent en programmation de mouvements, contrôle de drones, et gestion de versions. 
+                        Toujours à la recherche de nouveaux défis techniques et de projets innovants.       
+                    </p>
+                    <i class="fa-solid fa-up-right-from-square"></i>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="2.jpg" alt="image projets">
+                <div class="portfolio-layer">
+                    <h4>Web Desing</h4>
+                    <p>Développement de sites variés, incluant un site de voyage avec réservation en ligne, 
+                        une plateforme de e-commerce avec gestion de produits et paiement sécurisé, 
+                        ainsi qu'un site de musique avec streaming et recommandations. 
+                        (HTML, CSS, JavaScript, PHP, MySQL, React,)          
+                    </p>
+                    <i class="fa-solid fa-up-right-from-square"></i>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="3.jpg" alt="image projets">
+                <div class="portfolio-layer">
+                    <h4>Gestion de Base de Données</h4>
+                    <p>Conception et gestion d'une base de données pour organiser, stocker et manipuler des informations avec des fonctionnalités d'ajout,
+                         de modification et de suppression des données.          
+                    </p>
+                    <i class="fa-solid fa-up-right-from-square"></i>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="4.jpg" alt="image projets">
+                <div class="portfolio-layer">
+                    <h4>Jeu en C++ <br>(Projet en groupe)</h4>
+                    <p>Développement d'un jeu en C++ avec gestion des états du jeu, interactions utilisateur et logique de gameplay. 
+                        Travail en équipe pour l'architecture du code, 
+                        l'intégration des éléments graphiques et la gestion des événements en temps réel.          
+                    </p>
+                    <i class="fa-solid fa-up-right-from-square"></i>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="5.jpg" alt="image projets">
+                <div class="portfolio-layer">
+                    <h4>Gestion de Livre en Java</h4>
+                    <p>Création d'une application Java pour gérer un livre sous forme de base de données, permettant l'ajout, 
+                        modification et suppression d'entrées.
+                        Utilisation de la POO et tests unitaires pour valider les fonctionnalités
+                    </p>
+                    <i class="fa-solid fa-up-right-from-square"></i>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="6.jpg" alt="image projets">
+                <div class="portfolio-layer">
+                    <h4>Réseau dans un Stade</h4>
+                    <p>Conception et mise en place d'un réseau informatique pour un stade, incluant la configuration de points d'accès, 
+                            le câblage et l'intégration de la sécurité réseau. 
+                        Gestion de la connectivité pour les spectateurs et les systèmes internes.         
+                    </p>
+                    <i class="fa-solid fa-up-right-from-square"></i>
+                </div>
+            </div>
+        </div>
+       </section>
+
+       <!-- section CONTACT-->
+        <section class="contact" id="contact">
+            <h2 class="heading">Contact <span>Me</span></h2>
+
+            <form id="contact-form">
+                <div class="input-box">
+                    <input type="text" id="fullName" placeholder="Full Name" required>
+                    <input type="email" id="emailAddress" placeholder="Email Address" required>
+                </div>
+                <div class="input-box">
+                    <input type="number" id="mobileNumber" placeholder="Mobile Number">
+                    <input type="text" id="emailSubject" placeholder="Email Subject">
+                </div>
+                <textarea id="message" rows="10" cols="30" placeholder="Your Message" required></textarea>
+                <input type="submit" value="Send Message" class="btn">
+            </form>            
+        </section>
+
+        <!-- section FOOTER-->
+        <footer class="footer">
+            <div class="footer-text">
+                <p>Copyright &copy; 2025 by @Elisonthecode | All Rights Reserved.</p>
+            </div>
+
+            <div class="footer-icontop">
+                <a href="#home"><i class="fa-solid fa-angle-up"></i></a>
+            </div>
+        </footer>
+        
+        
+
+        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+        <script src="https://unpkg.com/scrollreveal"></script>
+        <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+        <script src="script.js"></script>
+
 </body>
 </html>
