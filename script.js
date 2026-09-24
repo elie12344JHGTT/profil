@@ -3,11 +3,23 @@
 let menuIcon = document.querySelector('#menu-icon');
 let navbar = document.querySelector('.navbar');
 
+function toggleMenu() {
+    menuIcon.classList.toggle('fa-xmark');
+    navbar.classList.toggle('active');
+    const expanded = navbar.classList.contains('active');
+    menuIcon.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    menuIcon.setAttribute('aria-label', expanded ? 'Fermer le menu' : 'Ouvrir le menu');
+}
+
 if (menuIcon) {
-    menuIcon.onclick = () => {
-        menuIcon.classList.toggle('fa-xmark');
-        navbar.classList.toggle('active');
-    };
+    menuIcon.setAttribute('aria-expanded', 'false');
+    menuIcon.onclick = toggleMenu;
+    menuIcon.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggleMenu();
+        }
+    });
 }
 
 /*================= scroll section active ===============*/
@@ -44,23 +56,23 @@ window.onscroll = () => {
     if (menuIcon && navbar) {
         menuIcon.classList.remove('fa-xmark');
         navbar.classList.remove('active');
+        menuIcon.setAttribute('aria-expanded', 'false');
+        menuIcon.setAttribute('aria-label', 'Ouvrir le menu');
     }
 };
 
-
-/* ========== ANIMATIONS SCROLLREVEAL ========== */
+/* ========== TYPED.JS ========== */
 const translations = {
     fr: ['Développeur frontend', 'Concepteur web', 'White Hat Hacker'],
     en: ['Frontend Developer', 'Web Designer', 'White Hat Hacker'],
     es: ['Desarrollador frontend', 'Diseñador web', 'Hacker ético']
 };
 
-// Détection de la langue par défaut (peut être changée dynamiquement)
 let currentLang = 'fr';
+let typed;
 
-// Fonction pour mettre à jour Typed.js avec la langue choisie
 function updateTypedText(lang) {
-    if (typed) typed.destroy(); // Détruit l'instance actuelle si elle existe
+    if (typed) typed.destroy();
 
     typed = new Typed('.multiple-text', {
         strings: translations[lang],
@@ -71,11 +83,8 @@ function updateTypedText(lang) {
     });
 }
 
-// Initialisation
-let typed;
 updateTypedText(currentLang);
 
-// Fonction pour changer de langue (à appeler quand l'utilisateur sélectionne une langue)
 function changeLanguage(lang) {
     if (translations[lang]) {
         currentLang = lang;
@@ -83,46 +92,81 @@ function changeLanguage(lang) {
     }
 }
 
+/* ========== SCROLLREVEAL ========== */
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+if (!prefersReducedMotion && typeof ScrollReveal !== 'undefined') {
+    const sr = ScrollReveal({
+        reset: false,
+        distance: '60px',
+        duration: 1500,
+        delay: 100
+    });
 
+    sr.reveal('.home-content, .heading', { origin: 'top' });
+    sr.reveal('.home-img, .services-container, .portfolio-box, .contact form, .contact-info', { origin: 'bottom' });
+    sr.reveal('.about-img', { origin: 'left' });
+    sr.reveal('.about-content', { origin: 'right' });
+}
 
-// Initialisation d'EmailJS
+/* ========== EMAILJS ========== */
+// Clé publique EmailJS : restreindre le domaine autorisé dans le tableau de bord EmailJS.
 (function() {
-    emailjs.init("tbOj8Kw--MPyqXAVT"); // Remplace avec ton User ID EmailJS
+    emailjs.init("tbOj8Kw--MPyqXAVT");
 })();
 
-// Fonction d'envoi du formulaire
-document.getElementById("contact-form").addEventListener("submit", function(event) {
-    event.preventDefault(); // Empêche le rechargement de la page
+const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
+const submitBtn = document.getElementById('submit-btn');
 
-    // Récupération des valeurs
-    let fullName = document.getElementById("fullName").value;
-    let emailAddress = document.getElementById("emailAddress").value;
-    let mobileNumber = document.getElementById("mobileNumber").value;
-    let emailSubject = document.getElementById("emailSubject").value;
-    let message = document.getElementById("message").value;
+function setFormStatus(message, type) {
+    if (!formStatus) return;
+    formStatus.textContent = message;
+    formStatus.classList.remove('is-success', 'is-error');
+    if (type) formStatus.classList.add(type);
+}
 
-    // Vérification si les champs sont remplis (optionnel si tu utilises `required`)
-    if (!fullName || !emailAddress || !message) {
-        alert("Please fill all required fields.");
-        return;
-    }
+if (contactForm) {
+    contactForm.addEventListener('submit', function(event) {
+        event.preventDefault();
 
-    // Création de l'objet contenant les infos
-    let params = {
-        fullName: fullName,
-        emailAddress: emailAddress,
-        mobileNumber: mobileNumber,
-        emailSubject: emailSubject,
-        message: message
-    };
+        let fullName = document.getElementById('fullName').value.trim();
+        let emailAddress = document.getElementById('emailAddress').value.trim();
+        let mobileNumber = document.getElementById('mobileNumber').value.trim();
+        let emailSubject = document.getElementById('emailSubject').value.trim();
+        let message = document.getElementById('message').value.trim();
 
-    console.log(params); 
-    // Envoi via EmailJS
-    emailjs.send("elie-ilunga", "template_df6n7yt", params)
-        .then(function(response) {
-            alert("Message envoyé avec succès !");
-        }, function(error) {
-            alert("Erreur lors de l'envoi : " + error.text);
-        });
-});
+        if (!fullName || !emailAddress || !message) {
+            setFormStatus('Veuillez remplir tous les champs obligatoires.', 'is-error');
+            return;
+        }
+
+        const params = {
+            fullName,
+            emailAddress,
+            mobileNumber,
+            emailSubject,
+            message
+        };
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Envoi en cours...';
+        }
+        setFormStatus('Envoi du message...', null);
+
+        emailjs.send('elie-ilunga', 'template_df6n7yt', params)
+            .then(function() {
+                setFormStatus('Message envoyé avec succès !', 'is-success');
+                contactForm.reset();
+            }, function(error) {
+                setFormStatus('Erreur lors de l\'envoi : ' + (error.text || 'réessayez plus tard.'), 'is-error');
+            })
+            .finally(function() {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Envoyer le message';
+                }
+            });
+    });
+}
