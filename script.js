@@ -6,9 +6,13 @@ let navbar = document.querySelector('.navbar');
 function toggleMenu() {
     menuIcon.classList.toggle('fa-xmark');
     navbar.classList.toggle('active');
+    const expanded = navbar.classList.contains('active');
+    menuIcon.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    menuIcon.setAttribute('aria-label', expanded ? 'Fermer le menu' : 'Ouvrir le menu');
 }
 
 if (menuIcon) {
+    menuIcon.setAttribute('aria-expanded', 'false');
     menuIcon.onclick = toggleMenu;
     menuIcon.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') {
@@ -52,6 +56,8 @@ window.onscroll = () => {
     if (menuIcon && navbar) {
         menuIcon.classList.remove('fa-xmark');
         navbar.classList.remove('active');
+        menuIcon.setAttribute('aria-expanded', 'false');
+        menuIcon.setAttribute('aria-label', 'Ouvrir le menu');
     }
 };
 
@@ -87,16 +93,18 @@ function changeLanguage(lang) {
 }
 
 /* ========== SCROLLREVEAL ========== */
-if (typeof ScrollReveal !== 'undefined') {
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!prefersReducedMotion && typeof ScrollReveal !== 'undefined') {
     const sr = ScrollReveal({
-        reset: true,
+        reset: false,
         distance: '60px',
         duration: 1500,
         delay: 100
     });
 
     sr.reveal('.home-content, .heading', { origin: 'top' });
-    sr.reveal('.home-img, .services-container, .portfolio-box, .contact form', { origin: 'bottom' });
+    sr.reveal('.home-img, .services-container, .portfolio-box, .contact form, .contact-info', { origin: 'bottom' });
     sr.reveal('.about-img', { origin: 'left' });
     sr.reveal('.about-content', { origin: 'right' });
 }
@@ -107,33 +115,58 @@ if (typeof ScrollReveal !== 'undefined') {
     emailjs.init("tbOj8Kw--MPyqXAVT");
 })();
 
-document.getElementById("contact-form").addEventListener("submit", function(event) {
-    event.preventDefault();
+const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
+const submitBtn = document.getElementById('submit-btn');
 
-    let fullName = document.getElementById("fullName").value.trim();
-    let emailAddress = document.getElementById("emailAddress").value.trim();
-    let mobileNumber = document.getElementById("mobileNumber").value.trim();
-    let emailSubject = document.getElementById("emailSubject").value.trim();
-    let message = document.getElementById("message").value.trim();
+function setFormStatus(message, type) {
+    if (!formStatus) return;
+    formStatus.textContent = message;
+    formStatus.classList.remove('is-success', 'is-error');
+    if (type) formStatus.classList.add(type);
+}
 
-    if (!fullName || !emailAddress || !message) {
-        alert("Veuillez remplir tous les champs obligatoires.");
-        return;
-    }
+if (contactForm) {
+    contactForm.addEventListener('submit', function(event) {
+        event.preventDefault();
 
-    let params = {
-        fullName: fullName,
-        emailAddress: emailAddress,
-        mobileNumber: mobileNumber,
-        emailSubject: emailSubject,
-        message: message
-    };
+        let fullName = document.getElementById('fullName').value.trim();
+        let emailAddress = document.getElementById('emailAddress').value.trim();
+        let mobileNumber = document.getElementById('mobileNumber').value.trim();
+        let emailSubject = document.getElementById('emailSubject').value.trim();
+        let message = document.getElementById('message').value.trim();
 
-    emailjs.send("elie-ilunga", "template_df6n7yt", params)
-        .then(function() {
-            alert("Message envoyé avec succès !");
-            event.target.reset();
-        }, function(error) {
-            alert("Erreur lors de l'envoi : " + error.text);
-        });
-});
+        if (!fullName || !emailAddress || !message) {
+            setFormStatus('Veuillez remplir tous les champs obligatoires.', 'is-error');
+            return;
+        }
+
+        const params = {
+            fullName,
+            emailAddress,
+            mobileNumber,
+            emailSubject,
+            message
+        };
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Envoi en cours...';
+        }
+        setFormStatus('Envoi du message...', null);
+
+        emailjs.send('elie-ilunga', 'template_df6n7yt', params)
+            .then(function() {
+                setFormStatus('Message envoyé avec succès !', 'is-success');
+                contactForm.reset();
+            }, function(error) {
+                setFormStatus('Erreur lors de l\'envoi : ' + (error.text || 'réessayez plus tard.'), 'is-error');
+            })
+            .finally(function() {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Envoyer le message';
+                }
+            });
+    });
+}
