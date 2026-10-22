@@ -1,0 +1,41 @@
+# Stack locale Vodcast : PostgreSQL 16 et l'API en rechargement à chaud.
+name: vodcast
+
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-vodcast}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-vodcast}
+      POSTGRES_DB: ${POSTGRES_DB:-vodcast}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  api:
+    build: ./backend
+    init: true
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    volumes:
+      # Le code source est monté pour le rechargement à chaud.
+      - ./backend:/app
+      # Volume anonyme : ne pas masquer node_modules par le montage du dépôt
+      # (les modules installés dans l'image restent ceux du conteneur).
+      - /app/node_modules
+
+volumes:
+  postgres_data:

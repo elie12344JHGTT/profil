@@ -1,0 +1,8 @@
+{
+  "watch": ["src"],
+  "ext": "ts",
+  "ignore": ["src/generated/**"],
+  "legacyWatch": true,
+  "signal": "SIGTERM",
+  "exec": "tsx src/index.ts"
+}

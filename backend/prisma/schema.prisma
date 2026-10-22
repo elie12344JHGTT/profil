@@ -1,0 +1,103 @@
+// Schéma Vodcast (PostgreSQL).
+// La connexion est définie dans prisma.config.ts via DATABASE_URL.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Compte capable de suivre une lecture.
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  displayName String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  watchProgress WatchProgress[]
+}
+
+/// Série de podcast vidéo.
+model Podcast {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  coverUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  seasons Season[]
+
+  @@index([title])
+}
+
+/// Saison. Le numéro est unique au sein d'un podcast.
+model Season {
+  id        String   @id @default(cuid())
+  podcastId String
+  number    Int
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  podcast  Podcast   @relation(fields: [podcastId], references: [id], onDelete: Cascade)
+  episodes Episode[]
+
+  @@unique([podcastId, number])
+}
+
+/// Épisode rattaché à une vidéo YouTube.
+model Episode {
+  id              String    @id @default(cuid())
+  seasonId        String
+  youtubeVideoId  String
+  title           String
+  description     String?
+  thumbnailUrl    String?
+  durationSeconds Int
+  episodeNumber   Int?
+  publishedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @default(now()) @updatedAt
+
+  season        Season          @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  chapters      Chapter[]
+  watchProgress WatchProgress[]
+
+  @@index([seasonId, episodeNumber])
+  @@index([youtubeVideoId])
+}
+
+/// Repère temporel dans un épisode. `orderIndex` trie les chapitres.
+model Chapter {
+  id           String @id @default(cuid())
+  episodeId    String
+  title        String
+  startSeconds Int
+  orderIndex   Int
+
+  episode Episode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+
+  @@index([episodeId, orderIndex])
+}
+
+/// Dernière position connue d'un utilisateur sur un épisode.
+model WatchProgress {
+  id              String   @id @default(cuid())
+  userId          String
+  episodeId       String
+  positionSeconds Int      @default(0)
+  completed       Boolean  @default(false)
+  updatedAt       DateTime @default(now()) @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  episode Episode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, episodeId])
+  @@index([episodeId])
+  @@index([updatedAt])
+}

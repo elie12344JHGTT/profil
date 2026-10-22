@@ -1,0 +1,34 @@
+# Dépendances et sorties Node
+node_modules/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+
+# Secrets — .env.example reste versionné
+.env
+.env.*
+!.env.example
+
+# Client Prisma généré (prisma generate)
+backend/src/generated/
+
+# Bases SQLite accidentelles
+*.db
+*.db-journal
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Éditeurs
+.idea/
+.vscode/
+*.swp
+*~
